@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteById, getPosts, newPost } from "./postSlice";
 import {
@@ -10,6 +10,7 @@ import {
   Grid,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Box, TextField } from "@mui/material";
 
 const Post = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,31 @@ const Post = () => {
   useEffect(() => {
     dispatch(getPosts());
   }, []);
+
+  const [newPost1, setNewPost] = useState({
+    title: "",
+    body: "",
+  });
+  console.log(newPost1);
+
+  const handleChange = (e) => {
+    setNewPost((prevState) => {
+      return {
+        ...prevState,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      newPost({
+        title: newPost1.title,
+        body: newPost1.body,
+      })
+    );
+  };
 
   // console.log(data);
 
@@ -61,13 +87,32 @@ const Post = () => {
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        onClick={() => dispatch(newPost({ title: "bye", body: "hi" }))}
-      >
-        Add New Post
-      </Button>
       <Grid container spacing={2}>
+        <Box component="form" sx={{ padding: 3 }}>
+          <Typography>Edit here</Typography>
+          <Box>
+            <TextField variant="standard" disabled value={data.id} />
+          </Box>
+          <Box>
+            <TextField
+              variant="standard"
+              name="title"
+              value={newPost.title}
+              onChange={handleChange}
+            />
+          </Box>
+          <Box>
+            <TextField
+              variant="standard"
+              name="body"
+              value={newPost.body}
+              onChange={handleChange}
+            />
+          </Box>
+          <Button onClick={handleSubmit} sx={{ margin: 2 }} variant="outlined">
+            Add new
+          </Button>
+        </Box>
         {postsElements}
       </Grid>
     </div>
