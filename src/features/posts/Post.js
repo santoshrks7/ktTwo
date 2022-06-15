@@ -89,10 +89,8 @@ const Post = () => {
     <div>
       <Grid container spacing={2}>
         <Box component="form" sx={{ padding: 3 }}>
-          <Typography>Edit here</Typography>
-          <Box>
-            <TextField variant="standard" disabled value={data.id} />
-          </Box>
+          <Typography>Add new</Typography>
+
           <Box>
             <TextField
               variant="standard"
